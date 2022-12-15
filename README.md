@@ -7,12 +7,11 @@ Features function to
 - add vaccines
 - delete vaccines 
 - edit vaccine details 
-- 
+- go to single vaccine page
 
 
-## design framework
-
-
+## tech Stack
+- Frontend: React JS
 
 ## starting frontend and backend concurrently during dev
 
