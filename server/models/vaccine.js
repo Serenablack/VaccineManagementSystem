@@ -28,6 +28,12 @@ const vaccineSchema = new mongoose.Schema({
   vaccineRoute: String,
   vaccinationAge: String,
   vaccineImage: String,
+  user: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 vaccineSchema.set("toJSON", {
