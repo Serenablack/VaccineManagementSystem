@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -6,26 +6,30 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { loginUser } from "../../reducers/userReducer";
 import loginService from "../../services/loginService";
+import { initializeVaccine } from "../../reducers/vaccineReducer";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(initializeVaccine());
+  }, []);
+
   const handleLogin = async (event) => {
     event.preventDefault();
-
-    // eslint-disable-next-line no-unused-vars
     const user = await loginService.create({
       email,
       password,
     });
-    if (user) {
-      dispatch(loginUser(user));
-    }
+
+    dispatch(loginUser(user));
+
     setEmail("");
     setPassword("");
-    navigate("/");
+    navigate("/vaccines");
   };
   return (
     <div>
