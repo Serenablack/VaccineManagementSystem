@@ -17,42 +17,57 @@ vaccineRouter.post("/upload", uploader.single("file"), async (req, res) => {
 
 vaccineRouter.get("/", async (req, res) => {
   const token = req.token;
+
   const decodedToken = jwt.verify(token, process.env.SECRET);
+
+  let vaccine = await Vaccine.find({});
+  // const isVac = vaccine.user?.includes
   if (decodedToken.id) {
-    let vaccine = await Vaccine.find({});
+    // if (vaccine.user?.length !== 0) {
     res.send(vaccine);
   }
-});
-vaccineRouter.get("/:id", async (req, res) => {
-  const token = req.token;
-  const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (decodedToken.id) {
-    let vaccine = await Vaccine.findById(req.params.id);
-    res.send(vaccine);
-  }
+  // } else {
+  //   res.send([]);
+  // }
 });
 
-vaccineRouter.post("/", async (req, res) => {
+vaccineRouter.get("/:id", async (req, res, next) => {
   const token = req.token;
   const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!decodedToken.id) {
-    return res.status(401).json({ error: "token missing or invalid" });
-  } else {
-    const user = await User.findById(decodedToken.id);
-    // console.log(decodedToken.id);
-    const vaccine = new Vaccine(req.body);
-    if (!vaccine) {
-      return res.status(400).json({
-        error: "bad request",
-      });
+  try {
+    if (decodedToken.id) {
+      let vaccine = await Vaccine.findById(req.params.id);
+      res.send(vaccine);
     }
-    vaccine["user"] = user._id;
-    const result = await vaccine.save();
-    user.vaccines = user.vaccines.concat(result._id);
-    await user.save();
-    console.log(vaccine);
+  } catch (error) {
+    next(error);
+  }
+});
 
-    res.send(vaccine);
+vaccineRouter.post("/", async (req, res, next) => {
+  const token = req.token;
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  try {
+    if (!decodedToken.id) {
+      return res.status(401).json({ error: "token missing or invalid" });
+    } else {
+      const user = await User.findById(decodedToken.id);
+      console.log(req.body);
+      const vaccine = new Vaccine(req.body);
+      if (!vaccine) {
+        return res.status(400).json({
+          error: "bad request",
+        });
+      }
+      vaccine["user"] = user._id;
+      const result = await vaccine.save();
+      user.vaccines = user.vaccines.concat(result._id);
+      await user.save();
+
+      res.send(vaccine);
+    }
+  } catch (error) {
+    next(error);
   }
 });
 vaccineRouter.put("/:id", async (req, res, next) => {
@@ -63,7 +78,6 @@ vaccineRouter.put("/:id", async (req, res, next) => {
 
   const user = await User.findById(decodedToken.id);
   const VaccineUpdate = await Vaccine.findById(req.params.id);
-  console.log("hey", VaccineUpdate);
 
   if (VaccineUpdate.user.toString() === user._id.toString()) {
     let vaccine = {

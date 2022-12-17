@@ -42,10 +42,6 @@ vaccineSchema.set("toJSON", {
     delete returnedObject._id;
     delete returnedObject.__v;
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
 });
 
 module.exports = mongoose.model("Vaccine", vaccineSchema);
