@@ -20,16 +20,10 @@ export const initializeVaccine = () => {
     dispatch(initVaccine(vaccines));
   };
 };
-// export const singleVaccine = (id) => {
-//   return async (dispatch) => {
-//     const vaccine = await vaccineServices.getVaccine(id);
+export const singleVaccine = (id) => {
+  return async (dispatch) => {
+    const vaccine = await vaccineServices.getVaccine(id);
 
-//     dispatch(initVaccine(vaccine));
-//   };
-// };
-
-// export const updateVaccine = (vaccineUpdate) => {
-//   return async () => {
-//     const vaccine = await vaccineServices.putVaccine(vaccineUpdate);
-//   };
-// };
+    dispatch(initVaccine(vaccine));
+  };
+};
