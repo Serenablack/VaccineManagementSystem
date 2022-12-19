@@ -18,22 +18,31 @@ const VaccineForm = () => {
     ? vaccineList.find((vac) => vac.id === match.params.id)
     : {};
   console.log(reqVaccine);
+
+  const [pic, setPic] = useState("");
+
+  const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
+  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+  const [date, setDate] = useState("");
+  const [dose, setDose] = useState("");
+  const [route, setRoute] = useState("");
+  const [age, setAge] = useState("");
   useEffect(() => {
     // dispatch(singleVaccine(match.params.id));
-
     setVaccine(reqVaccine);
-  }, [dispatch]);
+    setPic(vaccine?.vaccineImage);
+    setName(vaccine?.vaccineName);
+    setCompany(vaccine?.manufacturingCompany);
+    setEmail(vaccine?.companyEmail);
+    setContact(vaccine?.companyContact);
+    setDate(vaccine?.manufacturedDate?.substring(0, 4));
+    setDose(vaccine?.numberOfDose);
 
-  const [pic, setPic] = useState(vaccine?.vaccineImage);
-
-  const [name, setName] = useState(vaccine?.vaccineName);
-  const [company, setCompany] = useState(vaccine?.manufacturingCompany);
-  const [email, setEmail] = useState(vaccine?.companyEmail);
-  const [contact, setContact] = useState(vaccine?.companyContact);
-  const [date, setDate] = useState(vaccine?.manufacturedDate?.substring(0, 4));
-  const [dose, setDose] = useState(vaccine?.numberOfDose);
-  const [route, setRoute] = useState(vaccine?.vaccineRoute);
-  const [age, setAge] = useState(vaccine?.vaccinationAge);
+    setRoute(vaccine?.vaccineRoute);
+    setAge(vaccine?.vaccinationAge);
+  }, [vaccine]);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const updatedVaccine = await vaccineServices.putVaccine(vaccine.id, {
@@ -47,10 +56,11 @@ const VaccineForm = () => {
       vaccinationAge: age,
       vaccineImage: pic,
     });
+    dispatch(initializeVaccine());
 
     navigate("/vaccines");
   };
-
+  console.log(name, age, route);
   return (
     <div>
       <h1 style={{ color: "white" }}>Edit Details</h1>
@@ -58,7 +68,7 @@ const VaccineForm = () => {
         <br />
         Picture
         <input
-          type="text"
+          type="blob"
           value={pic}
           id="picUrl"
           onChange={({ target }) => setPic(target.value)}
@@ -93,7 +103,7 @@ const VaccineForm = () => {
         />
         Manufactured Date
         <input
-          type="date"
+          type="text"
           value={date}
           id="date"
           onChange={({ target }) => setDate(target.value)}
