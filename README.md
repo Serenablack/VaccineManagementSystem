@@ -12,7 +12,7 @@ Features function to
 
 ## tech Stack
 - Frontend: React JS, SCSS, CSS, React redux
-- Backend: Mongoose, Express
+- Backend: Mongoose, Express, Axios
 
 ## starting frontend and backend concurrently during development
 
