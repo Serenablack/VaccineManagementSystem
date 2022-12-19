@@ -21,7 +21,7 @@ const VaccineDetail = () => {
       <div>
         <img src={vaccine?.vaccineImage} alt="vaccineImage" width="400px" />
       </div>
-      <div className="detailContainer" style={{ height: "252px" }}>
+      <div className="detailContainer" style={{ height: "265px" }}>
         <h3> {vaccine?.vaccineName}</h3>
         <div> Manufacturing company: {vaccine?.manufacturingCompany}</div>
         <div> Company Email: {vaccine?.companyEmail}</div>
