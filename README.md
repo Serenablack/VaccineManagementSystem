@@ -11,7 +11,8 @@ Features function to
 
 
 ## tech Stack
-- Frontend: React JS
+- Frontend: React JS, SCSS, CSS, React redux
+- Backend: Mongoose, Express
 
 ## starting frontend and backend concurrently during development
 
