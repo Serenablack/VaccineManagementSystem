@@ -75,7 +75,12 @@ const VaccineList = () => {
                       </Link>
                     </td>
                     <td>
+                      {/* <Link
+                        to="*"
+                       
+                      > */}
                       <button
+                        type="button"
                         onClick={(event) => {
                           event.stopPropagation();
                           handleDelete(vac?.id);
@@ -83,6 +88,7 @@ const VaccineList = () => {
                       >
                         Delete
                       </button>
+                      {/* </Link> */}
                     </td>
                   </>
                 </tr>

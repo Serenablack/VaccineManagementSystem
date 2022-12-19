@@ -128,7 +128,6 @@ const Login = () => {
             <button onClick={() => toggleForm("login")}>Log In</button>
             <br />
           </form>
-     
         </div>
       )}
     </div>

@@ -51,6 +51,7 @@ const VaccineAddForm = () => {
 
   return (
     <div>
+      <h1 style={{ color: "white" }}>Create new vaccine</h1>
       <form className="wrapper" onSubmit={handleSubmit}>
         <br />
         Picture
