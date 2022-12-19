@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { initializeVaccine } from "../reducers/vaccineReducer";
+import { initializeVaccine, removeVaccine } from "../reducers/vaccineReducer";
 import vaccineServices from "../services/vaccineServices";
 
 const VaccineList = () => {
@@ -16,6 +16,11 @@ const VaccineList = () => {
 
   const handleDelete = async (id) => {
     await vaccineServices.deleteVaccine(id);
+    const vaccineRem = vaccines.find((vac) => vac.id !== id);
+    console.log(vaccineRem);
+    dispatch(removeVaccine(vaccineRem));
+    setVaccines(vaccineRem);
+    console.log(vaccines);
   };
 
   return (
@@ -66,13 +71,7 @@ const VaccineList = () => {
                   <>
                     <td>
                       <Link to={`/vaccines/${vac.id}/edit`}>
-                        <button
-                        // onClick={(event) => {
-                        //   event.stopPropagation();
-                        // }}
-                        >
-                          Edit
-                        </button>
+                        <button>Edit</button>
                       </Link>
                     </td>
                     <td>

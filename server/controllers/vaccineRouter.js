@@ -71,7 +71,7 @@ vaccineRouter.post("/", async (req, res, next) => {
   }
 });
 vaccineRouter.put("/:id", async (req, res, next) => {
-  const body = req.body;
+  const body = req.body.vaccine;
 
   const token = req.token;
   const decodedToken = jwt.verify(token, process.env.SECRET);
@@ -91,6 +91,7 @@ vaccineRouter.put("/:id", async (req, res, next) => {
       vaccinationAge: body.vaccinationAge,
       vaccineImage: body.vaccineImage,
     };
+
     try {
       const Vaccineupdated = await Vaccine.findByIdAndUpdate(
         req.params.id,

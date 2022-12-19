@@ -47,79 +47,81 @@ const VaccineForm = () => {
       vaccinationAge: age,
       vaccineImage: pic,
     });
-    console.log(updatedVaccine);
+
     navigate("/vaccines");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <br />
-      Picture
-      <input
-        type="text"
-        value={pic}
-        id="picUrl"
-        onChange={({ target }) => setPic(target.value)}
-      />
-      Name
-      <input
-        type="text"
-        value={name}
-        id="name"
-        onChange={({ target }) => setName(target.value)}
-      />
-      Manufacturing company
-      <input
-        type="text"
-        value={company}
-        id="company"
-        onChange={({ target }) => setCompany(target.value)}
-      />
-      Company Email
-      <input
-        type="email"
-        value={email}
-        id="email"
-        onChange={({ target }) => setEmail(target.value)}
-      />
-      Company Contact
-      <input
-        type="contact"
-        value={contact}
-        id="contact"
-        onChange={({ target }) => setContact(target.value)}
-      />
-      Manufactured Date
-      <input
-        type="date"
-        value={date}
-        id="date"
-        onChange={({ target }) => setDate(target.value)}
-      />
-      Number Of Dose
-      <input
-        type="text"
-        value={dose}
-        id="dose"
-        onChange={({ target }) => setDose(target.value)}
-      />
-      Vaccination Route
-      <input
-        type="text"
-        value={route}
-        id="route"
-        onChange={({ target }) => setRoute(target.value)}
-      />
-      Vaccination Age
-      <input
-        type="text"
-        value={age}
-        id="age"
-        onChange={({ target }) => setAge(target.value)}
-      />
-      <button type="submit"> Submit</button>
-      <br />
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <br />
+        Picture
+        <input
+          type="text"
+          value={pic}
+          id="picUrl"
+          onChange={({ target }) => setPic(target.value)}
+        />
+        Name
+        <input
+          type="text"
+          value={name}
+          id="name"
+          onChange={({ target }) => setName(target.value)}
+        />
+        Manufacturing company
+        <input
+          type="text"
+          value={company}
+          id="company"
+          onChange={({ target }) => setCompany(target.value)}
+        />
+        Company Email
+        <input
+          type="email"
+          value={email}
+          id="email"
+          onChange={({ target }) => setEmail(target.value)}
+        />
+        Company Contact
+        <input
+          type="contact"
+          value={contact}
+          id="contact"
+          onChange={({ target }) => setContact(target.value)}
+        />
+        Manufactured Date
+        <input
+          type="date"
+          value={date}
+          id="date"
+          onChange={({ target }) => setDate(target.value)}
+        />
+        Number Of Dose
+        <input
+          type="text"
+          value={dose}
+          id="dose"
+          onChange={({ target }) => setDose(target.value)}
+        />
+        Vaccination Route
+        <input
+          type="text"
+          value={route}
+          id="route"
+          onChange={({ target }) => setRoute(target.value)}
+        />
+        Vaccination Age
+        <input
+          type="text"
+          value={age}
+          id="age"
+          onChange={({ target }) => setAge(target.value)}
+        />
+        <button type="submit"> Submit</button>
+        <br />
+      </form>
+    </div>
   );
 };
 

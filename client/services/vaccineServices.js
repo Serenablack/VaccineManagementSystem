@@ -50,13 +50,7 @@ const putVaccine = async (id, vaccine) => {
   const config = {
     headers: { Authorization: token },
   };
-  const response = await axios.put(
-    `${basePath}/${id}`,
-    {
-      vaccine,
-    },
-    config
-  );
+  const response = await axios.put(`${basePath}/${id}`, { vaccine }, config);
   return response.data;
 };
 

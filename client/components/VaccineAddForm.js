@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useMatch, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { initializeVaccine } from "../reducers/vaccineReducer";
+import { appendVaccine, initializeVaccine } from "../reducers/vaccineReducer";
 import vaccineServices from "../services/vaccineServices";
 
 const VaccineAddForm = () => {
-  event.preventDefault();
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const vaccineList = useSelector((state) => state.vaccine);
@@ -47,70 +45,74 @@ const VaccineAddForm = () => {
       vaccineImage: pic,
     });
     console.log(addVaccine);
-    dispatch(initializeVaccine());
+    dispatch(appendVaccine(addVaccine));
     navigate("/vaccines");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <br />
-      Picture
-      <input
-        value={pic}
-        id="picUrl"
-        onChange={({ target }) => setPic(target.value)}
-      />
-      Name
-      <input
-        value={name}
-        id="name"
-        onChange={({ target }) => setName(target.value)}
-      />
-      Manufacturing company
-      <input
-        value={company}
-        id="company"
-        onChange={({ target }) => setCompany(target.value)}
-      />
-      Company Email
-      <input
-        value={email}
-        id="email"
-        onChange={({ target }) => setEmail(target.value)}
-      />
-      Company Contact
-      <input
-        value={contact}
-        id="contact"
-        onChange={({ target }) => setContact(target.value)}
-      />
-      Manufactured Date
-      <input
-        value={date}
-        id="date"
-        onChange={({ target }) => setDate(target.value)}
-      />
-      Number Of Dose
-      <input
-        value={dose}
-        id="dose"
-        onChange={({ target }) => setDose(target.value)}
-      />
-      Vaccination Route
-      <input
-        value={route}
-        id="route"
-        onChange={({ target }) => setRoute(target.value)}
-      />
-      Vaccination Age
-      <input
-        value={age}
-        id="age"
-        onChange={({ target }) => setAge(target.value)}
-      />
-      <button>Submit</button>
-      <br />
-    </form>
+    <div>
+      <form className="wrapper" onSubmit={handleSubmit}>
+        <br />
+        Picture
+        <input
+          value={pic}
+          id="picUrl"
+          onChange={({ target }) => setPic(target.value)}
+        />
+        Name
+        <input
+          value={name}
+          id="name"
+          onChange={({ target }) => setName(target.value)}
+        />
+        Manufacturing company
+        <input
+          value={company}
+          id="company"
+          onChange={({ target }) => setCompany(target.value)}
+        />
+        Company Email
+        <input
+          type="email"
+          value={email}
+          id="email"
+          onChange={({ target }) => setEmail(target.value)}
+        />
+        Company Contact
+        <input
+          value={contact}
+          id="contact"
+          onChange={({ target }) => setContact(target.value)}
+        />
+        Manufactured Date
+        <input
+          type="date"
+          value={date}
+          id="date"
+          onChange={({ target }) => setDate(target.value)}
+        />
+        Number Of Dose
+        <input
+          value={dose}
+          id="dose"
+          onChange={({ target }) => setDose(target.value)}
+        />
+        Vaccination Route
+        <input
+          value={route}
+          id="route"
+          onChange={({ target }) => setRoute(target.value)}
+        />
+        Vaccination Age
+        <input
+          value={age}
+          id="age"
+          onChange={({ target }) => setAge(target.value)}
+        />
+        <button>Submit</button>
+        <br />
+      </form>
+    </div>
   );
 };
 

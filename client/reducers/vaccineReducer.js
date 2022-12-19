@@ -9,9 +9,12 @@ const vaccineSlice = createSlice({
     initVaccine(state, action) {
       return action.payload;
     },
+    appendVac(state, action) {
+      state.push(action.payload);
+    },
   },
 });
-export const { initVaccine } = vaccineSlice.actions;
+export const { initVaccine, appendVac } = vaccineSlice.actions;
 
 export default vaccineSlice.reducer;
 export const initializeVaccine = () => {
@@ -25,5 +28,16 @@ export const singleVaccine = (id) => {
     const vaccine = await vaccineServices.getVaccine(id);
 
     dispatch(initVaccine(vaccine));
+  };
+};
+export const appendVaccine = (newVaccine) => {
+  return async (dispatch) => {
+    dispatch(appendVac(newVaccine));
+  };
+};
+
+export const removeVaccine = (newVaccine) => {
+  return async (dispatch) => {
+    dispatch(initVaccine(newVaccine));
   };
 };
