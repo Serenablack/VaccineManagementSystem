@@ -42,17 +42,16 @@ const postVaccine = async (vaccine) => {
   return response.data;
 };
 
-const putVaccine = async (vaccine) => {
+const putVaccine = async (id, vaccine) => {
   const tokenFromLocal = JSON.parse(
     window.localStorage.getItem("authorizedUserToken")
   );
-
   const token = `bearer ${tokenFromLocal}`;
   const config = {
     headers: { Authorization: token },
   };
   const response = await axios.put(
-    `${basePath}/${vaccine.id}`,
+    `${basePath}/${id}`,
     {
       vaccine,
     },
@@ -61,7 +60,7 @@ const putVaccine = async (vaccine) => {
   return response.data;
 };
 
-const deleteVaccine = async (vaccine) => {
+const deleteVaccine = async (id) => {
   const tokenFromLocal = JSON.parse(
     window.localStorage.getItem("authorizedUserToken")
   );
@@ -70,7 +69,7 @@ const deleteVaccine = async (vaccine) => {
   const config = {
     headers: { Authorization: token },
   };
-  const response = await axios.delete(`${basePath}/${vaccine.id}`, config);
+  const response = await axios.delete(`${basePath}/${id}`, config);
   return response.data;
 };
 export default {
