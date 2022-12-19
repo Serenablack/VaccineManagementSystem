@@ -1,0 +1,26 @@
+.region {
+  &-tn {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+  }
+
+  &-sm {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+
+  }
+
+  &-md {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    min-height: 25rem;
+
+  }
+
+  &-lg {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+   
+  }
+}

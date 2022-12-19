@@ -16,17 +16,11 @@ const unknownEndpoint = (request, response) => {
 
 const tokenExtractor = (request, response, next) => {
   const authorization = request.get("authorization");
+
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
     request["token"] = authorization.substring(7);
   }
-  next();
-};
 
-const userExtractor = async (request, response, next) => {
-  if (request.token) {
-    const user = jwt.verify(request.token, process.env.SECRET);
-    request["user"] = user.username;
-  }
   next();
 };
 
@@ -55,5 +49,4 @@ module.exports = {
   unknownEndpoint,
   errorHandler,
   tokenExtractor,
-  userExtractor,
 };

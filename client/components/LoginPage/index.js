@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
@@ -7,31 +6,65 @@ import { useState } from "react";
 import { loginUser } from "../../reducers/userReducer";
 import loginService from "../../services/loginService";
 
+import { initializeVaccine } from "../../reducers/vaccineReducer";
+import userService from "../../services/userService";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [activeForm, setActiveForm] = useState("login");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(initializeVaccine());
+  }, []);
+
   const handleLogin = async (event) => {
     event.preventDefault();
-
-    // eslint-disable-next-line no-unused-vars
     const user = await loginService.create({
       email,
       password,
     });
-    if (user) {
-      dispatch(loginUser(user));
-    }
+
+    dispatch(loginUser(user));
+
     setEmail("");
     setPassword("");
-    navigate("/");
+    navigate("/vaccines");
   };
+  function toggleForm(form) {
+    setActiveForm(form);
+  }
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+    const user = await userService.create({
+      email,
+      name,
+      password,
+    });
+    console.log(user);
+    setEmail("");
+    setName("");
+    setPassword("");
+    alert("New user created");
+    toggleForm("login");
+  };
+
   return (
-    <div>
-      <div>
-        <form className="login" onSubmit={handleLogin}>
-          <div className="input">
+    <div className="container" style={{ width: "fit-content" }}>
+      {activeForm === "login" ? (
+        <div className="login-form">
+          <h2>Log In</h2>
+          <form
+            className="login"
+            style={{ width: "30rem" }}
+            onSubmit={handleLogin}
+          >
+            <h1>Welcome Back</h1>
+            <label htmlFor="email">Email:</label>
+
             <input
               id="email"
               value={email}
@@ -39,8 +72,8 @@ const Login = () => {
               placeholder="email"
               onChange={({ target }) => setEmail(target.value)}
             />
-          </div>
-          <div className="input">
+            <label htmlFor="password">Password:</label>
+
             <input
               id="password"
               type="password"
@@ -49,20 +82,55 @@ const Login = () => {
               placeholder="password"
               onChange={({ target }) => setPassword(target.value)}
             />
-          </div>
+            <br />
+            <button type="submit">Sign In</button>
+            <br />
+            <button onClick={() => toggleForm("signup")}>Sign Up</button>
+            <br />
+          </form>
+        </div>
+      ) : (
+        <div className="signup-form">
+          <h2>Sign Up</h2>
+          <form className="signUp" onSubmit={handleSignUp}>
+            <h1>Create Account</h1>
+            <label htmlFor="name">Name:</label>
+            <input
+              id="name"
+              type="name"
+              value={name}
+              name="Name"
+              placeholder="name"
+              onChange={({ target }) => setName(target.value)}
+            />
+            <label htmlFor="email">Email:</label>
 
-          <button type="submit" className="button">
-            Submit
-          </button>
-          <br />
-          <div>
-            No account yet?
-            <Link to="/register" className="text-link">
-              Sign up
-            </Link>
-          </div>
-        </form>
-      </div>
+            <input
+              id="email"
+              value={email}
+              name="Email"
+              placeholder="email"
+              onChange={({ target }) => setEmail(target.value)}
+            />
+            <label htmlFor="password">Password:</label>
+
+            <input
+              id="password"
+              type="password"
+              value={password}
+              name="Password"
+              placeholder="password"
+              onChange={({ target }) => setPassword(target.value)}
+            />
+            <br />
+            <button type="submit">Sign Up</button>
+            <br />
+            <button onClick={() => toggleForm("login")}>Log In</button>
+            <br />
+          </form>
+     
+        </div>
+      )}
     </div>
   );
 };

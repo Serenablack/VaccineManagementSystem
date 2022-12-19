@@ -1,0 +1,13 @@
+.flow {
+  &-sm {
+    & > * + * {
+      padding-top: 1rem;
+    }
+  }
+
+  &-md {
+    & > * + * {
+      padding-top: 2rem;
+    }
+  }
+}

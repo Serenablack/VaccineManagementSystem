@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import userService from "../services/userService";
+
 const userSlice = createSlice({
   name: "user",
-  initialState: [],
+  initialState: null,
   reducers: {
     inituser(state, action) {
       return action.payload;
@@ -12,21 +12,24 @@ const userSlice = createSlice({
 export const { inituser } = userSlice.actions;
 
 export default userSlice.reducer;
-export const initializeUser = () => {
+
+export const loginUser = (
+  user
+  // { email, password }
+) => {
   return async (dispatch) => {
-    const user = window.localStorage.getItem("authorizedUser");
-    if (user) {
-      const isuser = JSON.parse(user);
-      const userAuth = await userService.getOne(isuser);
-      dispatch(inituser(userAuth));
-    }
-  };
-};
-export const loginUser = (user) => {
-  return async (dispatch) => {
-    if (user) {
-      window.localStorage.setItem("authorizedUser", JSON.stringify(user));
-    }
+    // const user = await loginService.create({
+    //   email,
+    //   password,
+    // });
+
     dispatch(inituser(user));
+
+    if (user) {
+      window.localStorage.setItem(
+        "authorizedUserToken",
+        JSON.stringify(user.token)
+      );
+    }
   };
 };

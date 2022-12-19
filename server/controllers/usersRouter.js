@@ -3,7 +3,7 @@ const usersRouter = require("express").Router();
 const User = require("../models/user");
 usersRouter.get("/", async (request, response) => {
   const users = await User.find({});
-  console.log(users);
+
   response.json(users.map((user) => user.toJSON()));
 });
 
@@ -15,7 +15,7 @@ usersRouter.post("/", async (request, response) => {
     });
   } else {
     const existingUser = await User.findOne({ email });
-    console.log("made");
+
     if (existingUser) {
       return response.status(400).json({
         error: "This e-mail is already in use.",
@@ -32,7 +32,7 @@ usersRouter.post("/", async (request, response) => {
     });
 
     const savedUser = await user.save();
-    console.log(savedUser);
+
     response.status(201).json(savedUser);
   }
 });

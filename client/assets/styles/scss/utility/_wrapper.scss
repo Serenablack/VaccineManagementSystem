@@ -1,0 +1,24 @@
+.wrapper {
+  max-width: $wrapper-max-width;
+  margin: 0 auto;
+  @include breakpoint-down(large) {
+    margin: 0 4rem;
+  }
+  @include breakpoint-down(medium) {
+    margin: 0 2rem;
+  }
+  @include breakpoint-down(small) {
+    margin: 0 1rem;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+.text-right  {
+  text-align: right;
+}
+
+.item-center{
+align-items: center;
+}
