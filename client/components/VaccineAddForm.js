@@ -1,0 +1,117 @@
+import React, { useEffect, useState } from "react";
+import { useMatch, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { initializeVaccine } from "../reducers/vaccineReducer";
+import vaccineServices from "../services/vaccineServices";
+
+const VaccineAddForm = () => {
+  event.preventDefault();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const vaccineList = useSelector((state) => state.vaccine);
+
+  const [vaccine, setVaccine] = useState([]);
+  const match = useMatch("/vaccines/:id/add");
+  const reqVaccine = match
+    ? vaccineList.find((vac) => vac.id === match.params.id)
+    : {};
+
+  const vaccineReq = useSelector((state) => state.vaccine);
+  useEffect(() => {
+    // dispatch(singleVaccine(match.params.id));
+    setVaccine(reqVaccine);
+  }, []);
+  const [pic, setPic] = useState("");
+  const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
+  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+  const [date, setDate] = useState("");
+  const [dose, setDose] = useState("");
+  const [route, setRoute] = useState("");
+  const [age, setAge] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const addVaccine = await vaccineServices.postVaccine({
+      vaccineName: name,
+      manufacturingCompany: company,
+      companyEmail: email,
+      companyContact: contact,
+      manufacturedDate: date,
+      numberOfDose: dose,
+      vaccineRoute: route,
+      vaccinationAge: age,
+      vaccineImage: pic,
+    });
+    console.log(addVaccine);
+    dispatch(initializeVaccine());
+    navigate("/vaccines");
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <br />
+      Picture
+      <input
+        value={pic}
+        id="picUrl"
+        onChange={({ target }) => setPic(target.value)}
+      />
+      Name
+      <input
+        value={name}
+        id="name"
+        onChange={({ target }) => setName(target.value)}
+      />
+      Manufacturing company
+      <input
+        value={company}
+        id="company"
+        onChange={({ target }) => setCompany(target.value)}
+      />
+      Company Email
+      <input
+        value={email}
+        id="email"
+        onChange={({ target }) => setEmail(target.value)}
+      />
+      Company Contact
+      <input
+        value={contact}
+        id="contact"
+        onChange={({ target }) => setContact(target.value)}
+      />
+      Manufactured Date
+      <input
+        value={date}
+        id="date"
+        onChange={({ target }) => setDate(target.value)}
+      />
+      Number Of Dose
+      <input
+        value={dose}
+        id="dose"
+        onChange={({ target }) => setDose(target.value)}
+      />
+      Vaccination Route
+      <input
+        value={route}
+        id="route"
+        onChange={({ target }) => setRoute(target.value)}
+      />
+      Vaccination Age
+      <input
+        value={age}
+        id="age"
+        onChange={({ target }) => setAge(target.value)}
+      />
+      <button>Submit</button>
+      <br />
+    </form>
+  );
+};
+
+export default VaccineAddForm;
