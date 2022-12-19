@@ -1,0 +1,63 @@
+  
+  p {
+    font-size: 1.5em;
+    color: #8a8a8a;
+  }
+ 
+  a {
+    text-decoration: none;
+  }
+  
+  .table {
+    background: #ffffff;
+    border-radius: 0.6em;
+    overflow: hidden;
+    clear: both;
+    margin-bottom: 1.8em;
+  }
+  
+  
+
+  .align-center {
+    text-align: center;
+  }
+  
+  .th {
+    background: $primary-color;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1em;
+  }
+  
+  .tf {
+    background: $primary-color;
+    text-transform: uppercase;
+    text-align: right;
+    font-size: 1em;  
+  }
+  
+  
+  .col {
+    padding: 1em;
+    width: 12%;
+  }
+ 
+  
+
+  button.remove{
+    padding: 2px 9px;
+    border-radius: 0.75rem;
+    color: white;
+    background-color: red;
+    cursor: pointer;
+  }
+  
+  button.qty:hover {
+    background: rgb(37, 0, 66);
+  }
+  button.remove:hover {
+    background: rgb(208, 198, 216);
+    color:black
+  }
+  

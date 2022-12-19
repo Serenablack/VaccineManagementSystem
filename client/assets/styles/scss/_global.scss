@@ -1,0 +1,29 @@
+body {
+  color: $text-color;
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  position: relative;
+  font-family: $secondary-font;
+  font-size: $paragraph;
+  letter-spacing: 0.45px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.5;
+  max-width: 30ch;
+}
+
+h1,
+h2 {
+  font-family: $primary-font;
+}
+
+p,
+blockquote,
+li {
+  max-width: 200ch;
+  line-height: 1.5;
+}
