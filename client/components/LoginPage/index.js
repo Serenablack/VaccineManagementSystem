@@ -53,7 +53,7 @@ const Login = () => {
   };
 
   return (
-    <div className="container" style={{ width: "fit-content" }}>
+    <div className=" wrapper" style={{ width: "fit-content" }}>
       {activeForm === "login" ? (
         <div className="login-form">
           <h2>Log In</h2>
@@ -90,9 +90,9 @@ const Login = () => {
           </form>
         </div>
       ) : (
-        <div className="signup-form">
+        <div className="signup-form" style={{ width: "fit-content" }}>
           <h2>Sign Up</h2>
-          <form className="signUp" onSubmit={handleSignUp}>
+          <form onSubmit={handleSignUp}>
             <h1>Create Account</h1>
             <label htmlFor="name">Name:</label>
             <input

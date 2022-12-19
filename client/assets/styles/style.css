@@ -4,7 +4,7 @@
 	box-sizing: border-box;
 }
 
-body {
+/* body {
 	background: #040929;
 	display: flex;
 	justify-content: center;
@@ -13,7 +13,7 @@ body {
 	font-family: 'Montserrat', sans-serif;
 	height: 100vh;
 	margin: -20px 0 50px;
-}
+} */
 
 h1 {
 	font-weight: bold;
@@ -59,7 +59,6 @@ button:focus {
 }
 
 form {
-	width:80vw;
 	background-color: #dddded;
 	display: flex;
 	align-items: center;
