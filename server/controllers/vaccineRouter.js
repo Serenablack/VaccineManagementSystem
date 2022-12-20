@@ -72,41 +72,36 @@ vaccineRouter.post("/", async (req, res, next) => {
 });
 vaccineRouter.put("/:id", async (req, res, next) => {
   const body = req.body.vaccine;
-
   const token = req.token;
   const decodedToken = jwt.verify(token, process.env.SECRET);
 
   const user = await User.findById(decodedToken.id);
   const VaccineUpdate = await Vaccine.findById(req.params.id);
 
-  if (VaccineUpdate.user.toString() === user._id.toString()) {
-    let vaccine = {
-      vaccineName: body.vaccineName,
-      manufacturingCompany: body.manufacturingCompany,
-      companyEmail: body.companyEmail,
-      companyContact: body.companyContact,
-      manufacturedDate: body.manufacturedDate,
-      numberOfDose: body.numberOfDose,
-      vaccineRoute: body.vaccineRoute,
-      vaccinationAge: body.vaccinationAge,
-      vaccineImage: body.vaccineImage,
-    };
+  let vaccine = {
+    vaccineName: body.vaccineName,
+    manufacturingCompany: body.manufacturingCompany,
+    companyEmail: body.companyEmail,
+    companyContact: body.companyContact,
+    manufacturedDate: body.manufacturedDate,
+    numberOfDose: body.numberOfDose,
+    vaccineRoute: body.vaccineRoute,
+    vaccinationAge: body.vaccinationAge,
+    vaccineImage: body.vaccineImage,
+  };
 
-    try {
-      const Vaccineupdated = await Vaccine.findByIdAndUpdate(
-        req.params.id,
-        vaccine,
-        {
-          new: true,
-          runValidators: true,
-          context: "query",
-        }
-      );
+  try {
+    const Vaccineupdated = await Vaccine.findByIdAndUpdate(
+      req.params.id,
+      vaccine,
+      {
+        new: true,
+      }
+    );
 
-      res.json(Vaccineupdated);
-    } catch (error) {
-      next(error);
-    }
+    res.json(Vaccineupdated);
+  } catch (error) {
+    next(error);
   }
 });
 

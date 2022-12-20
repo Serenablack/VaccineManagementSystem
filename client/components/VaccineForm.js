@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useMatch, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import vaccineServices from "../services/vaccineServices";
-import { initializeVaccine, singleVaccine } from "../reducers/vaccineReducer";
+import { initializeVaccine } from "../reducers/vaccineReducer";
 
 const VaccineForm = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,6 @@ const VaccineForm = () => {
   const vaccineList = useSelector((state) => state.vaccine);
   const [vaccine, setVaccine] = useState([]);
   const match = useMatch("/vaccines/:id/edit");
-  console.log(match.params.id);
   const reqVaccine = match
     ? vaccineList.find((vac) => vac.id === match.params.id)
     : {};
@@ -30,7 +29,6 @@ const VaccineForm = () => {
   const [route, setRoute] = useState("");
   const [age, setAge] = useState("");
   useEffect(() => {
-    // dispatch(singleVaccine(match.params.id));
     setVaccine(reqVaccine);
     setPic(vaccine?.vaccineImage);
     setName(vaccine?.vaccineName);
@@ -57,10 +55,8 @@ const VaccineForm = () => {
       vaccineImage: pic,
     });
     dispatch(initializeVaccine());
-
     navigate("/vaccines");
   };
-  console.log(name, age, route);
   return (
     <div>
       <h1 style={{ color: "white" }}>Edit Details</h1>

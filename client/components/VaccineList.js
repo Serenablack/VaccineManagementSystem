@@ -13,7 +13,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#212233",
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -37,7 +37,6 @@ const VaccineList = () => {
   const navigate = useNavigate();
   const vaccineList = useSelector((state) => state.vaccine);
   useEffect(() => {
-    dispatch(initializeVaccine());
     setVaccines(vaccineList);
   }, []);
 
@@ -71,6 +70,8 @@ const VaccineList = () => {
               <StyledTableCell align="right">Company contact</StyledTableCell>
               <StyledTableCell align="right">Manufactured date</StyledTableCell>
               <StyledTableCell align="right">Number of dose</StyledTableCell>
+              <StyledTableCell align="right">Edit</StyledTableCell>{" "}
+              <StyledTableCell align="right">Delete</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
