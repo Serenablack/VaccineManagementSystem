@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { initializeVaccine, removeVaccine } from "../reducers/vaccineReducer";
+import { removeVaccine } from "../reducers/vaccineReducer";
 import vaccineServices from "../services/vaccineServices";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -13,7 +13,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#212233",
+    backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -38,15 +38,15 @@ const VaccineList = () => {
   const vaccineList = useSelector((state) => state.vaccine);
   useEffect(() => {
     setVaccines(vaccineList);
-  }, []);
+  }, [vaccineList]);
 
   const handleDelete = async (id) => {
     await vaccineServices.deleteVaccine(id);
-    const vaccineRem = vaccines.find((vac) => vac.id !== id);
+    const vaccineRem = vaccines.filter((vac) => {
+      return vac.id !== id;
+    });
     console.log(vaccineRem);
     dispatch(removeVaccine(vaccineRem));
-    setVaccines(vaccineRem);
-    console.log(vaccines);
   };
 
   return (
@@ -70,7 +70,7 @@ const VaccineList = () => {
               <StyledTableCell align="right">Company contact</StyledTableCell>
               <StyledTableCell align="right">Manufactured date</StyledTableCell>
               <StyledTableCell align="right">Number of dose</StyledTableCell>
-              <StyledTableCell align="right">Edit</StyledTableCell>{" "}
+              <StyledTableCell align="right">Edit</StyledTableCell>
               <StyledTableCell align="right">Delete</StyledTableCell>
             </TableRow>
           </TableHead>

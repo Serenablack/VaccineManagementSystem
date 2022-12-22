@@ -52,7 +52,6 @@ vaccineRouter.post("/", async (req, res, next) => {
       return res.status(401).json({ error: "token missing or invalid" });
     } else {
       const user = await User.findById(decodedToken.id);
-      console.log(req.body);
       const vaccine = new Vaccine(req.body);
       if (!vaccine) {
         return res.status(400).json({
@@ -111,19 +110,15 @@ vaccineRouter.delete("/:id", async (req, res, next) => {
 
   const user = await User.findById(decodedToken.id);
   const vaccineDelete = await Vaccine.findById(req.params.id);
-
-  if (vaccineDelete.user.toString() === user.id.toString()) {
+  try {
     await Vaccine.findByIdAndRemove(req.params.id);
-    try {
-      res
-        .status(204)
 
-        .end();
-    } catch (error) {
-      next(error);
-    }
-  } else {
-    return res.status(401).json({ error: "Invalid move" });
+    res
+      .status(204)
+
+      .end();
+  } catch (error) {
+    next(error);
   }
 });
 

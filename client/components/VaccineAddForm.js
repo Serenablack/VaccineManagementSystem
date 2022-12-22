@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useMatch, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { appendVaccine, initializeVaccine } from "../reducers/vaccineReducer";
+import { appendVaccine } from "../reducers/vaccineReducer";
 import vaccineServices from "../services/vaccineServices";
 
 const VaccineAddForm = () => {
@@ -44,7 +44,7 @@ const VaccineAddForm = () => {
       vaccinationAge: age,
       vaccineImage: pic,
     });
-    console.log(addVaccine);
+
     dispatch(appendVaccine(addVaccine));
     navigate("/vaccines");
   };
