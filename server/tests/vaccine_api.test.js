@@ -85,3 +85,51 @@ describe("addition of a new Vaccine", () => {
     expect(vaccineName).toContain("Adacel");
   });
 });
+
+describe("update of a vaccine", () => {
+  test("update of a vaccine", async () => {
+    const vaccinetobeUpdated = {
+      vaccineName: "Adacel",
+      manufacturingCompany: "Sanofi Pasteur",
+      companyEmail: "customercontactus@sp.com",
+      companyContact: "+01888564838",
+      manufacturedDate: "2005",
+      numberOfDose: "1",
+      vaccineRoute: "IM",
+      vaccinationAge: "10-64",
+      vaccineImage:
+        "https://res.cloudinary.com/ddt5ixpqr/image/upload/v1671007144/vaccines/lojozz7ttmhuml08mwp3.jpg",
+      isMandatory: false,
+    };
+    await api
+      .post("/api/vaccines")
+      .send(vaccinetobeUpdated)
+      .set("Authorization", "bearer " + token)
+      .expect(200);
+
+    const allVaccines = await helper.vaccinesInDb();
+
+    const vaccineToUpdate = allVaccines.find(
+      (vaccine) => vaccine.vaccineName === vaccinetobeUpdated.vaccineName
+    );
+    console.log(vaccineToUpdate);
+    const updatedVaccine = {
+      ...vaccineToUpdate,
+      companyContact: "+08888888828",
+    };
+
+    await api
+      .put(`/api/vaccines/${vaccineToUpdate.id}`)
+      .send({ vaccine: updatedVaccine })
+      .set("Authorization", "bearer " + token)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    const vaccinesAfter = await helper.vaccinesInDb();
+    expect(vaccinesAfter).toHaveLength(helper.vaccines.length + 1);
+    const vaccineupdated = vaccinesAfter.find(
+      (vaccine) => vaccine.companyContact === "+08888888828"
+    );
+    expect(vaccineupdated.companyContact).toBe("+08888888828");
+  });
+});
