@@ -10,7 +10,7 @@ const vaccineSlice = createSlice({
       return action.payload;
     },
     appendVac(state, action) {
-      state.push(action.payload);
+      return [...state, action.payload];
     },
   },
 });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { removeVaccine } from "../reducers/vaccineReducer";
+import { appendVaccine, removeVaccine } from "../reducers/vaccineReducer";
 import vaccineServices from "../services/vaccineServices";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -33,6 +33,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const VaccineList = () => {
   const [vaccines, setVaccines] = useState([]);
+  const [mandatory, setMandate] = useState(true);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const vaccineList = useSelector((state) => state.vaccine);
@@ -49,6 +51,20 @@ const VaccineList = () => {
     dispatch(removeVaccine(vaccineRem));
   };
 
+  const handleEdit = async (vac, state) => {
+    const buttonClicked = window.confirm(
+      "Do you want to mark the vaccine as mandatory?"
+    );
+    debugger;
+    if (buttonClicked) {
+      const vaccineUpdated = await vaccineServices.putVaccine(vac.id, {
+        ...vac,
+        isMandatory: state,
+      });
+      console.log(vaccineUpdated);
+    }
+  };
+
   return (
     <div>
       <div className="flex split-pair gap-2">
@@ -62,23 +78,30 @@ const VaccineList = () => {
           <TableHead>
             <TableRow>
               <StyledTableCell>Picture</StyledTableCell>
-              <StyledTableCell align="right">Name</StyledTableCell>
-              <StyledTableCell align="right">
+              <StyledTableCell align="center">Name</StyledTableCell>
+              <StyledTableCell align="center">
                 Manufacturing company
               </StyledTableCell>
-              <StyledTableCell align="right">Company email</StyledTableCell>
-              <StyledTableCell align="right">Company contact</StyledTableCell>
-              <StyledTableCell align="right">Manufactured date</StyledTableCell>
-              <StyledTableCell align="right">Number of dose</StyledTableCell>
-              <StyledTableCell align="right">Edit</StyledTableCell>
-              <StyledTableCell align="right">Delete</StyledTableCell>
+              <StyledTableCell align="center">Company email</StyledTableCell>
+              <StyledTableCell align="center">Company contact</StyledTableCell>
+              <StyledTableCell align="center">
+                Manufactured date
+              </StyledTableCell>
+              <StyledTableCell align="center">Number of dose</StyledTableCell>
+              <StyledTableCell align="center">Edit</StyledTableCell>
+              <StyledTableCell align="center">Delete</StyledTableCell>
+              <StyledTableCell align="center">Mandatory</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <>
               {vaccines.map((vac) => (
                 <StyledTableRow key={vac?.id}>
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell
+                    component="th"
+                    scope="row"
+                    onClick={() => navigate(`/vaccines/${vac.id}`)}
+                  >
                     <img
                       src={vac?.vaccineImage}
                       alt="imageVac"
@@ -88,39 +111,50 @@ const VaccineList = () => {
                   <StyledTableCell component="th" scope="row">
                     {vac?.vaccineName}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="center">
                     {vac?.manufacturingCompany}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="center">
                     {vac?.companyEmail}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="center">
                     {vac?.companyContact}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="center">
                     {vac?.manufacturedDate.substring(0, 4)}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="center">
                     {vac?.numberOfDose}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="center">
                     <button
                       onClick={(event) => {
-                        event.preventDefault();
+                        event.stopPropagation();
                         navigate(`/vaccines/${vac.id}/edit`);
                       }}
                     >
                       Edit
                     </button>
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="center">
                     <button
-                      onClick={() => {
+                      onClick={(event) => {
+                        event.stopPropagation();
                         handleDelete(vac.id);
                       }}
                     >
                       Delete
                     </button>
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <input
+                      type="checkbox"
+                      checked={vac?.isMandatory}
+                      onChange={(event) => {
+                        setMandate(event.target.checked);
+                        handleEdit(vac, !vac?.isMandatory);
+                      }}
+                    />
                   </StyledTableCell>
                 </StyledTableRow>
               ))}

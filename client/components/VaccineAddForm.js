@@ -1,25 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useMatch, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { appendVaccine } from "../reducers/vaccineReducer";
 import vaccineServices from "../services/vaccineServices";
 
 const VaccineAddForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const vaccineList = useSelector((state) => state.vaccine);
 
-  const [vaccine, setVaccine] = useState([]);
-  const match = useMatch("/vaccines/:id/add");
-  const reqVaccine = match
-    ? vaccineList.find((vac) => vac.id === match.params.id)
-    : {};
-
-  const vaccineReq = useSelector((state) => state.vaccine);
-  useEffect(() => {
-    // dispatch(singleVaccine(match.params.id));
-    setVaccine(reqVaccine);
-  }, []);
   const [pic, setPic] = useState("");
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
@@ -43,8 +31,8 @@ const VaccineAddForm = () => {
       vaccineRoute: route,
       vaccinationAge: age,
       vaccineImage: pic,
+      isMandatory: false,
     });
-
     dispatch(appendVaccine(addVaccine));
     navigate("/vaccines");
   };

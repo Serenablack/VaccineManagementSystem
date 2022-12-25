@@ -34,6 +34,7 @@ const vaccineSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+  isMandatory: Boolean,
 });
 
 vaccineSchema.set("toJSON", {

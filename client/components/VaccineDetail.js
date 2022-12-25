@@ -32,6 +32,7 @@ const VaccineDetail = () => {
         <div>Number Of Dose: {vaccine?.numberOfDose}</div>
         <div>Vaccination Route: {vaccine?.vaccineRoute}</div>
         <div> Vaccination Age: {vaccine?.vaccinationAge}</div>
+        <div> {vaccine?.isMandatory === false ? null : "Mandatory"}</div>
       </div>
     </div>
   );
