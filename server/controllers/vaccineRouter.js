@@ -21,14 +21,9 @@ vaccineRouter.get("/", async (req, res) => {
   const decodedToken = jwt.verify(token, process.env.SECRET);
 
   let vaccine = await Vaccine.find({});
-  // const isVac = vaccine.user?.includes
   if (decodedToken.id) {
-    // if (vaccine.user?.length !== 0) {
     res.send(vaccine);
   }
-  // } else {
-  //   res.send([]);
-  // }
 });
 
 vaccineRouter.get("/:id", async (req, res, next) => {
@@ -53,6 +48,7 @@ vaccineRouter.post("/", async (req, res, next) => {
     } else {
       const user = await User.findById(decodedToken.id);
       const vaccine = new Vaccine(req.body);
+
       if (!vaccine) {
         return res.status(400).json({
           error: "bad request",
@@ -60,8 +56,9 @@ vaccineRouter.post("/", async (req, res, next) => {
       }
       vaccine["user"] = user._id;
       const result = await vaccine.save();
-      user.vaccines = user.vaccines.concat(result._id);
-      await user.save();
+
+      // user.vaccines = user.vaccines.concat(result._id);
+      // await user.save();
 
       res.send(vaccine);
     }
