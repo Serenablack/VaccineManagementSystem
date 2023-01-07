@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
+
 const config = require("./utils/config");
 const vaccineRouter = require("./controllers/vaccineRouter");
 const usersRouter = require("./controllers/usersRouter");
@@ -20,6 +21,7 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
+
 app.use(middleware.requestLogger);
 app.use(middleware.tokenExtractor);
 

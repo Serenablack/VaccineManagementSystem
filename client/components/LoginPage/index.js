@@ -53,10 +53,10 @@ const Login = () => {
   };
 
   return (
-    <div className=" wrapper" style={{ width: "fit-content" }}>
+    <div className="wrapper" style={{ width: "fit-content" }}>
       {activeForm === "login" ? (
         <div className="login-form">
-          <h2>Log In</h2>
+          <h2 style={{ margin: 40 }}>Log In</h2>
           <form
             className="login"
             style={{ width: "30rem" }}
@@ -83,9 +83,16 @@ const Login = () => {
               onChange={({ target }) => setPassword(target.value)}
             />
             <br />
-            <button type="submit">Sign In</button>
+            <button className="primary-button" type="submit">
+              Sign In
+            </button>
             <br />
-            <button onClick={() => toggleForm("signup")}>Sign Up</button>
+            <button
+              className="secondary-button"
+              onClick={() => toggleForm("signup")}
+            >
+              Sign Up
+            </button>
             <br />
           </form>
         </div>

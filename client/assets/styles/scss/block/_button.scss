@@ -1,5 +1,10 @@
 .primary-button {
-  padding: 0 3rem;
+  border-radius: 20px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+  padding: 0.75rem 3rem;
   background-color: $primary-color;
   color: $light-color;
   border: 1px solid $primary-color;
@@ -11,7 +16,16 @@
 }
 
 .secondary-button {
-  padding: 0rem 3rem;
+  border-radius: 20px;
+	
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+  padding: 0.75rem 3rem;
+  background-color: $primary-color;
+  color: $light-color;
+  border: 1px solid $primary-color;
+  text-decoration: none;
   border: 1px solid #000;
   color: $text-color;
   font-size: $h5;
