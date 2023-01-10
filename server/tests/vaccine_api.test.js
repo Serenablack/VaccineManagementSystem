@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const helper = require("./test_helper");
 const supertest = require("supertest");
 const app = require("../app");
@@ -132,4 +134,52 @@ describe("update of a vaccine", () => {
     );
     expect(vaccineupdated.companyContact).toBe("+08888888828");
   });
+});
+
+describe("deletion of a vaccine", () => {
+  test("succeeds with status code 204 if id is valid", async () => {
+    const createdVaccine = {
+      vaccineName: "Adacel",
+      manufacturingCompany: "Sanofi Pasteur",
+      companyEmail: "customercontactus@sp.com",
+      companyContact: "+01888564838",
+      manufacturedDate: "2005",
+      numberOfDose: "1",
+      vaccineRoute: "IM",
+      vaccinationAge: "10-64",
+      vaccineImage:
+        "https://res.cloudinary.com/ddt5ixpqr/image/upload/v1671007144/vaccines/lojozz7ttmhuml08mwp3.jpg",
+      isMandatory: false,
+    };
+
+    await api
+      .post("/api/Vaccines")
+      .send(createdVaccine)
+      .set("Authorization", "bearer " + token)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    const vaccinesBefore = await helper.vaccinesInDb();
+
+    const vaccineToDelete = vaccinesBefore.find(
+      (vaccine) => vaccine.vaccineName === createdVaccine.vaccineName
+    );
+
+    await api
+      .delete(`/api/vaccines/${vaccineToDelete.id}`)
+      .set("Authorization", "bearer " + token)
+      .expect(204);
+
+    const vaccinesAfter = await helper.vaccinesInDb();
+
+    expect(vaccinesAfter).toHaveLength(helper.vaccines.length);
+
+    const vacName = vaccinesAfter.map((vac) => vac.vaccineName);
+
+    expect(vacName).not.toContain(vaccineToDelete.vaccineName);
+  });
+});
+
+afterAll(() => {
+  mongoose.connection.close();
 });
