@@ -7,4 +7,5 @@ module.exports = {
       : process.env.DATABASE_URL,
   port: process.env.PORT || 3001,
   SECRET: process.env.SECRET,
+  REFRESH_SECRET: process.env.REFRESH_SECRET,
 };

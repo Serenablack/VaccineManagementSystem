@@ -23,20 +23,41 @@ loginRouter.post("/", async (request, response) => {
     id: user.id,
   };
 
-  const token = jwt.sign(
-    userForToken,
-    config.SECRET
-    //   {
-    //   expiresIn: 60 * 60,
-    // }
-  );
+  const token = jwt.sign(userForToken, config.SECRET, {
+    expiresIn: 60 * 60,
+  });
+  const refreshToken = jwt.sign(userForToken, config.REFRESH_SECRET, {
+    expiresIn: 60 * 60 * 24,
+  });
 
   response.status(200).send({
     token,
+    refreshToken,
     email: user.email,
     fullName: user.name,
     id: user.id,
   });
+});
+
+loginRouter.post('/refresh"', (req, res) => {
+  const { email, name, refreshToken } = req.body;
+  if (refreshToken) {
+    const user = {
+      email: email,
+      fullName: name,
+    };
+    const token = jwt.sign(user, config.secret, {
+      expiresIn: config.tokenLife,
+    });
+    const response = {
+      token,
+    };
+    // update the token in the list
+    tokenList[refreshToken] = token;
+    res.status(200).json(response);
+  } else {
+    res.status(404).send("Invalid request");
+  }
 });
 
 module.exports = loginRouter;
