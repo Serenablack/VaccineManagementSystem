@@ -5,6 +5,8 @@ const User = require("../models/user");
 const loginRouter = require("express").Router();
 const config = require("../utils/config");
 require("dotenv").config();
+const tokenList = {};
+
 loginRouter.post("/", async (request, response) => {
   const { email, password } = request.body;
   const user = await User.findOne({ email });
@@ -24,12 +26,14 @@ loginRouter.post("/", async (request, response) => {
   };
 
   const token = jwt.sign(userForToken, config.SECRET, {
-    expiresIn: 60 * 60,
-  });
-  const refreshToken = jwt.sign(userForToken, config.REFRESH_SECRET, {
-    expiresIn: 60 * 60 * 24,
+    expiresIn: 20,
   });
 
+  const refreshToken = jwt.sign(userForToken, config.REFRESH_SECRET, {
+    expiresIn: 60,
+  });
+
+  tokenList[refreshToken] = token;
   response.status(200).send({
     token,
     refreshToken,
@@ -39,25 +43,44 @@ loginRouter.post("/", async (request, response) => {
   });
 });
 
-loginRouter.post('/refresh"', (req, res) => {
-  const { email, name, refreshToken } = req.body;
-  if (refreshToken) {
-    const user = {
-      email: email,
-      fullName: name,
-    };
-    const token = jwt.sign(user, config.secret, {
-      expiresIn: config.tokenLife,
+loginRouter.post('/refresh"', async (req, res) => {
+  const { refreshToken } = req.body;
+  if (!refreshToken) {
+    return res.status(401).json({
+      error: "invalid refresh token",
     });
-    const response = {
-      token,
-    };
-    // update the token in the list
-    tokenList[refreshToken] = token;
-    res.status(200).json(response);
-  } else {
-    res.status(404).send("Invalid request");
   }
-});
 
+  try {
+    jwt.verify(refreshToken, config.REFRESH_SECRET);
+  } catch (error) {
+    return res.status(401).json({
+      error: "invalid refresh token",
+    });
+  }
+
+  const accessToken = tokenList[refreshToken];
+  if (!accessToken) {
+    return res.status(401).json({
+      error: "invalid refresh token",
+    });
+  }
+
+  delete tokenList[refreshToken];
+
+  const userForToken = jwt.decode(accessToken);
+  const newAccessToken = jwt.sign(userForToken, config.SECRET, {
+    expiresIn: 20,
+  });
+  const newRefreshToken = jwt.sign(userForToken, config.REFRESH_SECRET, {
+    expiresIn: 60,
+  });
+
+  tokenList[newRefreshToken] = newAccessToken;
+
+  res.status(200).send({
+    accessToken: newAccessToken,
+    refreshToken: newRefreshToken,
+  });
+});
 module.exports = loginRouter;
