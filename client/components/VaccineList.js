@@ -33,7 +33,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const VaccineList = () => {
   const [vaccines, setVaccines] = useState([]);
-  const [mandatory, setMandate] = useState(true);
+  const [mandatory, setMandate] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,16 +52,18 @@ const VaccineList = () => {
   };
 
   const handleEdit = async (vac, state) => {
-    const buttonClicked = window.confirm(
-      "Do you want to mark the vaccine as mandatory?"
-    );
-    debugger;
-    if (buttonClicked) {
-      const vaccineUpdated = await vaccineServices.putVaccine(vac.id, {
-        ...vac,
-        isMandatory: state,
-      });
-      console.log(vaccineUpdated);
+    if (!vac?.isMandatory) {
+      const buttonClicked = window.confirm(
+        "Do you want to mark the vaccine as mandatory?"
+      );
+      if (buttonClicked) {
+        setMandate(true);
+        const vaccineUpdated = await vaccineServices.putVaccine(vac.id, {
+          ...vac,
+          isMandatory: true,
+        });
+        console.log(vaccineUpdated);
+      }
     }
   };
 
@@ -148,10 +150,10 @@ const VaccineList = () => {
                   </StyledTableCell>
                   <StyledTableCell>
                     <input
-                      type="checkbox"
+                      type="radio"
                       checked={vac?.isMandatory}
+                      disabled={vac?.isMandatory}
                       onChange={(event) => {
-                        setMandate(event.target.checked);
                         handleEdit(vac, !vac?.isMandatory);
                       }}
                     />
