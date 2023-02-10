@@ -1,8 +1,8 @@
 const express = require("express");
-const app = express();
 const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
+const app = express();
 
 const config = require("./utils/config");
 const vaccineRouter = require("./controllers/vaccineRouter");
@@ -26,10 +26,10 @@ app.use(middleware.requestLogger);
 app.use(middleware.tokenExtractor);
 
 app.use(express.static("dist"));
-app.use("/api/vaccines", vaccineRouter);
+app.use(`${config.baseUrl}api/vaccines`, vaccineRouter);
 
-app.use("/api/users", usersRouter);
-app.use("/api/login", loginRouter);
+app.use(`${config.baseUrl}api/users`, usersRouter);
+app.use(`${config.baseUrl}api/login`, loginRouter);
 app.use("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
