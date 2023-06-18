@@ -55,7 +55,6 @@ const VaccineList = () => {
     const buttonClicked = window.confirm(
       "Do you want to mark the vaccine as mandatory?"
     );
-    debugger;
     if (buttonClicked) {
       const vaccineUpdated = await vaccineServices.putVaccine(vac.id, {
         ...vac,
@@ -69,6 +68,12 @@ const VaccineList = () => {
     <div>
       <div className="flex split-pair gap-2">
         <h2>Vaccine List</h2>
+        <Link
+          onClick={() => window.localStorage.removeItem("authorizedUserToken")}
+          to={`/`}
+        >
+          <button>Sign Out</button>
+        </Link>
         <Link to={`/vaccines/add`}>
           <button>Add</button>
         </Link>
